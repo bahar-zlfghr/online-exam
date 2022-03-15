@@ -106,7 +106,7 @@
                             <select th:field="*{role}" class="form-select" style="width: 242px">
                                 <option th:each="role : ${roles}"
                                         th:value="${role.id}"
-                                        th:text="${role.name.substring(0, 1).toUpperCase() + role.name.substring(1)}">
+                                        th:text="${'&nbsp;&nbsp;&nbsp;&nbsp;' + role.name.substring(0, 1).toUpperCase() + role.name.substring(1)}">
                             </select>
                         </label>
                     </td>
