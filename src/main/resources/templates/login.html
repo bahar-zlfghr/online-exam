@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="#{index.page.title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/header.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/footer.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/button.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/error.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/image/logo.png}" th:rel="icon">
+</head>
+<body style="flex-direction: column">
+<th:block th:include="/header"/>
+
+<div class="container rounded-3" style="flex-direction: row">
+    <div style="width: 50%; text-align: center">
+        <img th:src="@{/assets/image/login.png}" th:alt="Login" width="294" height="314">
+    </div>
+    <div style="width: 50%; text-align: center">
+        <div th:if="${unidentified}" style="display: flex; flex-direction: row; justify-content: center">
+            <img th:src="@{/assets/image/warning.png}" th:alt="Warning" width="20" height="20">
+            &nbsp;
+            <p th:class="error" class="error" th:text="#{user.not.authenticated}"></p>
+        </div>
+
+        <form th:action="@{/perform-login}" method="post">
+            <table class="table table-borderless" style="padding: 20px">
+                <tbody>
+                <tr>
+                    <td th:text="#{form.login.email}"></td>
+                    <td>
+                        <label>
+                            <input class="form-control" type="email" id="username" name="username" autofocus="autofocus"/>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:text="#{form.login.password}"></td>
+                    <td>
+                        <label>
+                            <input class="form-control" type="password" id="password" name="password" autofocus="autofocus"/>
+                        </label>
+                    </td>
+                </tr>
+                <tr th:if="${loginError != null && loginError}">
+                    <td colspan="2">
+                        <div style="display: flex; flex-direction: row; justify-content: center">
+                            <img th:src="@{/assets/image/warning.png}" th:alt="Warning" width="20" height="20">
+                            &nbsp;
+                            <p th:class="error" class="error" th:text="#{user.not.found}"></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="btn btn-success" type="submit" th:value="#{form.login.submit}"/>
+                        <button type="button" class="btn btn-common">
+                            <a th:href="@{/perform-sign-up}" th:text="#{button.sign-up.page}"></a>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<th:block th:include="/footer"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

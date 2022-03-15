@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="#{index.page.title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/header.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/footer.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/button.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/image/logo.png}" th:rel="icon">
+    <script th:src="@{/assets/js/tables.js}"></script>
+    <script th:src="@{/assets/js/messages_en.js}"></script>
+    <script th:src="@{/assets/js/utils.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body style="flex-direction: column">
+<th:block th:include="/header"/>
+
+<div style="display: flex; flex-direction: row">
+    <div th:class="buttons" style="display: flex; flex-direction: column; margin: 100px auto;">
+        <button id="educationalUsers" type="button" class="btn btn-common" style="width: 150px; color: #FFFFFF"
+                th:text="#{button.educational-users}">
+        </button>
+        <button id="courses" type="button" class="btn btn-common" style="width: 150px; color: #FFFFFF"
+                th:text="#{button.courses}">
+        </button>
+        <button id="add-course" type="button" class="btn btn-common" style="width: 150px; color: #FFFFFF">
+            <a th:href="@{/courses/add}" th:text="#{button.add-course}" style="color: #FFFFFF"></a>
+        </button>
+    </div>
+    <div class="container rounded-3" id="box">
+        <h5 th:text="#{menu.message}"></h5>
+    </div>
+</div>
+
+<th:block th:include="/footer"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+    $("#educationalUsers").click(function () {
+        $.get(
+            "/educational-users",
+            function (data) {
+                console.log(data);
+                document.getElementById("box").innerHTML = searchTable();
+                $("#box").append(educationalUsersTable(data));
+            }
+        );
+    });
+
+    $(document).ready(function() {
+        $(document).on('submit', '#search-form', function() {
+            $.ajax({
+                type: "GET",
+                url: "/educational-user/search?" + $.param({
+                    "firstName": document.getElementById('firstName').value,
+                    "lastName": document.getElementById('lastName').value,
+                    "email": document.getElementById('email').value,
+                    "role": document.getElementById('role').value
+                }),
+                success(data) {
+                    document.getElementById("box").innerHTML = searchTable();
+                    $("#box").append(educationalUsersTable(data));
+                }
+            });
+            return false;
+        });
+    });
+
+    $("#courses").click(function () {
+        $.get(
+            "/courses",
+            function (data) {
+                document.getElementById("box").innerHTML = coursesTableAdminDashboard(data);
+            }
+        );
+    });
+
+    function getEducationalUsers(courseId) {
+        $.get(
+            "/courses/" + courseId + "/educational-users",
+            function (data) {
+                document.getElementById("box").innerHTML = educationalUsersTable(data);
+            }
+        );
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/assets/image/logo.png}" th:alt="Logo" width="30" height="30">
+        </a>
+        <a class="navbar-brand" th:href="@{/}" th:text="#{header.item.navbar.brand}"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/perform-login}"
+                       th:text="#{header.item.admin.page}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/perform-login}"
+                       th:text="#{header.item.teacher.page}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/perform-login}"
+                       th:text="#{header.item.student.page}"></a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}"
+                       th:text="#{header.item.logout}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

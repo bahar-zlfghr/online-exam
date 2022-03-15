@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="#{index.page.title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/header.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/footer.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/button.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/error.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/image/logo.png}" th:rel="icon">
+    <script th:src="@{/assets/js/tables.js}"></script>
+    <script th:src="@{/assets/js/messages_en.js}"></script>
+    <script th:src="@{/assets/js/utils.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body style="flex-direction: column">
+<th:block th:include="/header"/>
+
+<div class="container rounded-3" style="flex-direction: row; text-align: center">
+
+    <div style="width: 50%; padding: 10px">
+        <table class="table table-borderless">
+            <tbody>
+            <tr>
+                <td th:text="#{form.add-question-to-exam.question}"></td>
+                <td>
+                    <label>
+                        <textarea class="form-control" rows="3" id="question" name="question"
+                                  autofocus="autofocus"></textarea>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{form.add-question-to-exam.options}"></td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="options" id="option1">
+                        <label class="form-check-label" for="option1">
+                            <textarea class="form-control" rows="2" id="option1value" name="option1value"
+                                      autofocus="autofocus"></textarea>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="options" id="option2">
+                        <label class="form-check-label" for="option2">
+                            <textarea class="form-control" rows="2" id="option2value" name="option1value"
+                                      autofocus="autofocus"></textarea>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="options" id="option3">
+                        <label class="form-check-label" for="option3">
+                            <textarea class="form-control" rows="2" id="option3value" name="option1value"
+                                      autofocus="autofocus"></textarea>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="options" id="option4">
+                        <label class="form-check-label" for="option4">
+                            <textarea class="form-control" rows="2" id="option4value" name="option1value"
+                                      autofocus="autofocus"></textarea>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="add-question" class="btn btn-common"
+                            th:text="#{form.add-question-to-exam.add-question}"></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="add-questions" class="btn btn-success" type="submit"
+                            th:value="#{form.add-question-to-exam.submit}"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="question-table" style="width: 50%; padding: 10px"></div>
+</div>
+<th:block th:include="/footer"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    const questions= [{}];
+
+    $("#add-question").click(function () {
+        let question = $("#question").val();
+
+        let radio1 = $("input[id=option1]:checked").val();
+        let radio2 = $("input[id=option2]:checked").val();
+        let radio3 = $("input[id=option3]:checked").val();
+        let radio4 = $("input[id=option4]:checked").val();
+
+        let answer1 = $("textarea[id=option1value]").val();
+        let answer2 = $("textarea[id=option2value]").val();
+        let answer3 = $("textarea[id=option3value]").val();
+        let answer4 = $("textarea[id=option4value]").val();
+
+        let correctAnswer;
+
+        if (radio1) {
+            correctAnswer = answer1;
+        }
+        else if (radio2) {
+            correctAnswer = answer2;
+        }
+        else if (radio3) {
+            correctAnswer = answer3;
+        }
+        else if (radio4) {
+            correctAnswer = answer4;
+        }
+
+        questions.push({
+            question: question,
+            answers: [answer1, answer2, answer3, answer4],
+            correctAnswer: correctAnswer
+        })
+
+        document.getElementById("question-table").innerHTML = questionTableTeacherDashboard(questions);
+    });
+
+
+    $("#add-questions").click(function () {
+        questions.slice(0, 0);
+        console.log(questions);
+        $.ajax({
+            type: "POST",
+            url: "/exams/add-questions",
+            data: JSON.stringify(questions),
+            dataType : 'json',
+            contentType: 'application/json',
+            complete: function () {
+                /*<![CDATA[*/
+                let teacherId = /*[[${session.teacherId}]]*/ '-1';
+                /*]]>*/
+                console.log("teacher id: " + teacherId);
+                window.location.replace('http://localhost:8080/teacher-dashboard/' + teacherId);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

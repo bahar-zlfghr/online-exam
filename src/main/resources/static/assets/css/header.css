@@ -1,0 +1,13 @@
+.logo {
+    width: 2%;
+}
+
+.navbar-brand, .navbar-nav li a {
+    color: #073b4c !important;
+}
+
+.navbar-nav li a:hover{
+    background-color:#2193b0;
+    color: #FFFFFF !important;
+    border-radius: 5px;
+}

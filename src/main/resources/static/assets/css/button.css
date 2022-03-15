@@ -1,0 +1,65 @@
+.btn-common {
+    color: #2193b0;
+    margin: 20px auto 20px auto;
+    width: max-content;
+    border: 3px solid #2193b0;
+    border-radius: 5px;
+}
+
+.btn-common:hover {
+    color: #FFFFFF;
+    background-color: #2193b0;
+    border: 3px solid #FFFFFF;
+}
+
+.btn-common a {
+    color: #2193b0;
+}
+
+.btn-common:hover a {
+    color: #FFFFFF;
+}
+
+.btn-success a {
+    color: #06d6a0;
+}
+
+.btn-success {
+    color: #06d6a0;
+    background-color: #FFFFFF !important;
+    margin: 20px auto 20px auto;
+    width: max-content;
+    border: 3px solid #06d6a0;
+    border-radius: 5px;
+}
+
+.btn-success:hover {
+    background-color: #06d6a0 !important;
+    border: 3px solid #FFFFFF;
+}
+
+.btn-success:hover a {
+    color: #FFFFFF;
+}
+
+.btn-danger a {
+    color: #ef476f;
+}
+
+.btn-danger {
+    color: #ef476f;
+    background-color: #FFFFFF !important;
+    margin: 20px auto 20px auto;
+    width: max-content;
+    border: 3px solid #ef476f;
+    border-radius: 5px;
+}
+
+.btn-danger:hover {
+    background-color: #ef476f !important;
+    border: 3px solid #FFFFFF;
+}
+
+.btn-danger:hover a {
+    color: #FFFFFF;
+}
